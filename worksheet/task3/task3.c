@@ -16,8 +16,61 @@
 
 #include <stdio.h>
 #include <string.h>
+#include <ctype.h>
  
  int main(void){
-	 
+	 char password[256];
+	 char choice = 'y';
+
+	 while (choice == 'y' || choice == 'Y') {
+		 int valid = 0;
+
+		 while (!valid) {
+			 int has_upper = 0;
+			 int has_digit = 0;
+			 int has_special = 0;
+			 size_t len;
+
+			 printf("Enter password: ");
+			 if (fgets(password, sizeof(password), stdin) == NULL) {
+				 return 1;
+			 }
+
+			 password[strcspn(password, "\n")] = '\0';
+			 len = strlen(password);
+
+			 for (size_t i = 0; i < len; i++) {
+				 if (isupper((unsigned char)password[i])) {
+					 has_upper = 1;
+				 }
+				 if (isdigit((unsigned char)password[i])) {
+					 has_digit = 1;
+				 }
+				 if (strchr("!@#$%^&*", password[i]) != NULL) {
+					 has_special = 1;
+				 }
+			 }
+
+			 if (len >= 8 && has_upper && has_digit && has_special) {
+				 valid = 1;
+				 printf("Password is valid.\n");
+			 } else {
+				 printf("Invalid password. Requirements:\n");
+				 printf("- At least 8 characters\n");
+				 printf("- At least one uppercase letter\n");
+				 printf("- At least one number\n");
+				 printf("- At least one special character (!@#$%%^&*)\n");
+			 }
+		 }
+
+		 printf("Validate another password? (y/n): ");
+		 if (scanf(" %c", &choice) != 1) {
+			 return 1;
+		 }
+		 while (getchar() != '\n') {
+		 }
+	 }
+
+	 printf("Program ended.\n");
 	 return 0;
  }

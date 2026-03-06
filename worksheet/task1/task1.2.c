@@ -10,8 +10,37 @@
 #include <stdio.h>
 
 int main(void) {
- 
+	int value;
+	int count = 0;
+	int sum = 0;
+
 	printf("--- Average Calculator ---\n");
-    	
+	printf("Enter positive numbers (-1 to stop):\n");
+
+	while (1) {
+		printf("Number: ");
+		if (scanf("%d", &value) != 1) {
+			printf("Invalid input.\n");
+			return 1;
+		}
+
+		if (value == -1) {
+			break;
+		}
+
+		if (value > 0) {
+			sum += value;
+			count++;
+		} else {
+			printf("Please enter a positive number or -1 to stop.\n");
+		}
+	}
+
+	if (count == 0) {
+		printf("No positive numbers were entered.\n");
+	} else {
+		printf("Average: %.2f\n", (double)sum / count);
+	}
+
 	return 0;
 }
